@@ -49,3 +49,9 @@ npm run build
 - TypeScript
 - Tailwind CSS
 - Radix UI 组件库
+
+## 许可证
+
+本项目采用 [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) 进行许可。
+
+详细许可条款请查看项目根目录下的 [LICENSE](./LICENSE) 文件。

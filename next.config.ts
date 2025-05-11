@@ -1,5 +1,10 @@
 import type {NextConfig} from 'next';
 
+// 获取仓库名称作为basePath
+const basePath = process.env.GITHUB_REPOSITORY 
+  ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}` 
+  : '';
+
 const nextConfig: NextConfig = {
   /* config options here */
   typescript: {
@@ -17,7 +22,14 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    unoptimized: true, // 对于静态导出需要设置为true
   },
+  // 静态导出设置
+  output: 'export',
+  // 在生产环境中使用basePath
+  basePath: process.env.NODE_ENV === 'production' ? basePath : '',
+  // 禁用基于服务器的特性
+  trailingSlash: true,
 };
 
 export default nextConfig;

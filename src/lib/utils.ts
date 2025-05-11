@@ -1,4 +1,6 @@
-import { clsx, type ClassValue } from "clsx"
+"use client";
+
+import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import type { StoredRobotAssessment, AssessmentQuestion } from '@/types';
 
@@ -67,4 +69,17 @@ export function downloadCsv(csvContent: string, filename: string): void {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }
+}
+
+// 辅助函数：根据环境生成正确的URL路径
+export function getBasePath() {
+  // 在客户端运行时检测当前URL路径
+  if (typeof window !== 'undefined') {
+    const pathSegments = window.location.pathname.split('/');
+    // 如果是GitHub Pages部署（路径包含仓库名）
+    if (pathSegments.length > 1 && pathSegments[1] !== '' && !pathSegments[1].startsWith('_next')) {
+      return `/${pathSegments[1]}`;
+    }
+  }
+  return '';
 }

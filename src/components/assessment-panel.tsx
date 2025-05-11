@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from 'react';
-import { useMemo } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
@@ -18,6 +18,9 @@ interface AssessmentPanelProps {
   robotsAssessedCount: number;
   totalRobotsToAssess: number;
   isAssessmentActive: boolean;
+  answeredQuestions: boolean[];
+  setAnsweredQuestions: Dispatch<SetStateAction<boolean[]>>;
+  currentAssessmentId: string;
 }
 
 export function AssessmentPanel({ 
@@ -26,23 +29,43 @@ export function AssessmentPanel({
   onSliderValuesChange,
   robotsAssessedCount,
   totalRobotsToAssess,
-  isAssessmentActive 
+  isAssessmentActive,
+  answeredQuestions,
+  setAnsweredQuestions,
+  currentAssessmentId
 }: AssessmentPanelProps) {
+  // 添加对内容区域的引用
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const handleSliderChange = (index: number, value: number[]) => {
     const newSliderValues = [...sliderValues];
     newSliderValues[index] = value[0];
     onSliderValuesChange(newSliderValues);
+    
+    // 标记为已回答
+    const newAnsweredQuestions = [...answeredQuestions];
+    newAnsweredQuestions[index] = true;
+    setAnsweredQuestions(newAnsweredQuestions);
   };
 
-  const numChangedSliders = useMemo(() => {
-    if (!sliderValues || sliderValues.length === 0) return 0;
-    return sliderValues.filter(value => value !== INITIAL_SLIDER_VALUE).length;
-  }, [sliderValues]);
+  const numAnsweredQuestions = useMemo(() => {
+    if (!answeredQuestions || answeredQuestions.length === 0) return 0;
+    return answeredQuestions.filter(answered => answered).length;
+  }, [answeredQuestions]);
 
   const totalProgressPercentage = totalRobotsToAssess > 0 
     ? Math.min(100, Math.round((robotsAssessedCount / totalRobotsToAssess) * 100)) 
     : 0;
+    
+  // 当robotsAssessedCount或currentAssessmentId变化时，滚动到顶部
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }, [robotsAssessedCount, currentAssessmentId]);
 
   return (
     <Card className="shadow-lg rounded-lg overflow-hidden flex flex-col">
@@ -62,7 +85,7 @@ export function AssessmentPanel({
         </div>
       </CardHeader>
 
-      <CardContent className="flex-grow space-y-6 p-6 overflow-y-auto max-h-[calc(100vh-24rem)]">
+      <CardContent ref={contentRef} className="flex-grow space-y-6 p-6 overflow-y-auto max-h-[calc(100vh-24rem)]">
         {questions.map((question, index) => (
           <div key={question.id} className="space-y-3 pt-2 first:pt-0">
             <Label htmlFor={question.id} className="text-base font-medium block text-foreground">
@@ -105,10 +128,10 @@ export function AssessmentPanel({
           <div className="w-full space-y-3">
             <h3 className="text-lg font-semibold text-primary">当前答题进度</h3>
             <div className="text-4xl font-bold text-accent text-center py-2">
-              {numChangedSliders} / {questions.length}
+              {numAnsweredQuestions} / {questions.length}
             </div>
             <p className="text-xs text-muted-foreground pt-1 text-center">
-              已调整 {numChangedSliders} 个问题的评分，共 {questions.length} 个问题。
+              已回答 {numAnsweredQuestions} 个问题，共 {questions.length} 个问题。
             </p>
           </div>
         )}

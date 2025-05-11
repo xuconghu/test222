@@ -52,6 +52,12 @@ export default function RobotVisionaryPage() {
   });
   const { toast } = useToast();
 
+  // 添加一个状态来跟踪用户是否调整了滑块
+  const [answeredQuestions, setAnsweredQuestions] = useState<boolean[]>([]);
+
+  // 添加一个状态来跟踪当前评估的机器人id，用于触发评估面板滚动
+  const [currentAssessmentId, setCurrentAssessmentId] = useState<string>('');
+
   // 处理用户信息输入变化
   const handleUserInfoChange = (field: string, value: string) => {
     setUserInfo(prev => ({
@@ -118,15 +124,22 @@ export default function RobotVisionaryPage() {
     }
   }, [shuffledQuestions]);
 
+  // 当问题加载后初始化回答状态
+  useEffect(() => {
+    if (shuffledQuestions.length > 0) {
+      setAnsweredQuestions(shuffledQuestions.map(() => false));
+    }
+  }, [shuffledQuestions]);
+
   // 获取当前机器人
   const currentRobot = session.selectedRobots[session.currentRobotIndex] || null;
 
   // 检查所有问题是否都已回答（滑块值是否改变）
   const checkAllQuestionsAnswered = () => {
-    if (sliderValues.length === 0) return false;
+    if (answeredQuestions.length === 0) return false;
     
-    // 检查是否有任何滑块值仍然为初始值
-    const unansweredQuestions = sliderValues.filter(value => value === INITIAL_SLIDER_VALUE);
+    // 检查是否有任何问题尚未回答
+    const unansweredQuestions = answeredQuestions.filter(answered => !answered);
     
     if (unansweredQuestions.length > 0) {
       toast({
@@ -183,6 +196,18 @@ export default function RobotVisionaryPage() {
 
     // 重置滑块值为初始值
     setSliderValues(shuffledQuestions.map(() => INITIAL_SLIDER_VALUE));
+    
+    // 重置回答状态
+    setAnsweredQuestions(shuffledQuestions.map(() => false));
+    
+    // 滚动到页面顶部
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    
+    // 更新currentAssessmentId以触发评估面板滚动到顶部
+    setCurrentAssessmentId(Date.now().toString());
 
     toast({
       title: "已保存",
@@ -405,6 +430,9 @@ export default function RobotVisionaryPage() {
                 robotsAssessedCount={session.completedAssessments.length}
                 totalRobotsToAssess={session.selectedRobots.length}
                 isAssessmentActive={!!currentRobot}
+                answeredQuestions={answeredQuestions}
+                setAnsweredQuestions={setAnsweredQuestions}
+                currentAssessmentId={currentAssessmentId}
               />
             ) : (
               <div className="flex items-center justify-center h-full bg-card rounded-lg shadow-lg p-6">
@@ -540,6 +568,16 @@ export default function RobotVisionaryPage() {
         <div className="container flex flex-col items-center justify-center gap-2 md:h-20 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground">
             智视未来 &copy; {new Date().getFullYear()}. 洞察评估未来。
+            <span className="block md:inline md:ml-2">
+              <a 
+                href="https://creativecommons.org/licenses/by-nc-sa/4.0/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                CC BY-NC-SA 4.0
+              </a>
+            </span>
           </p>
         </div>
       </footer>
