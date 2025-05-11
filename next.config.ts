@@ -1,10 +1,5 @@
 import type {NextConfig} from 'next';
 
-// 获取仓库名称作为basePath
-const basePath = process.env.GITHUB_REPOSITORY 
-  ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}` 
-  : '';
-
 const nextConfig: NextConfig = {
   /* config options here */
   typescript: {
@@ -26,8 +21,8 @@ const nextConfig: NextConfig = {
   },
   // 静态导出设置
   output: 'export',
-  // basePath配置简化为固定值
-  basePath: '/test222',
+  // 使用自定义域名时不需要basePath
+  // basePath: '/test222',
   // 禁用基于服务器的特性
   trailingSlash: true,
 };

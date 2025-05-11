@@ -75,15 +75,14 @@ export function downloadCsv(csvContent: string, filename: string): void {
 export function getBasePath() {
   // 在客户端运行时检测当前URL路径
   if (typeof window !== 'undefined') {
-    // 使用固定的仓库名称(/test222)作为basePath
-    return '/test222';
+    // 对用户展示的路径是zhishiweilai.com，无需添加basePath
+    if (window.location.hostname === 'zhishiweilai.com' || 
+        window.location.hostname === 'www.zhishiweilai.com') {
+      return '';
+    }
     
-    // 注释掉原来的动态检测逻辑
-    // const pathSegments = window.location.pathname.split('/');
-    // // 如果是GitHub Pages部署（路径包含仓库名）
-    // if (pathSegments.length > 1 && pathSegments[1] !== '' && !pathSegments[1].startsWith('_next')) {
-    //   return `/${pathSegments[1]}`;
-    // }
+    // 在GitHub Pages上时使用仓库名称作为basePath
+    return '/test222';
   }
   return '';
 }
