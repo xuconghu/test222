@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Bot } from 'lucide-react'; 
 import type { RobotImage } from '@/types';
+import { getImagePath } from '@/lib/image-utils';
 
 interface RobotDisplayProps {
   robot: RobotImage | null;
@@ -26,7 +27,7 @@ export function RobotDisplay({ robot, currentIndex, totalRobots }: RobotDisplayP
           {robot ? (
             <div className="relative w-full h-full">
               <Image
-                src={robot.filename}
+                src={getImagePath(robot.filename)}
                 alt={robot.name}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
