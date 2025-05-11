@@ -567,7 +567,16 @@ export default function RobotVisionaryPage() {
       <footer className="py-6 border-t bg-card">
         <div className="container flex flex-col items-center justify-center gap-2 md:h-20 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground">
-            智视未来 &copy; {new Date().getFullYear()}. 洞察评估未来。
+            智视未来 &copy; {new Date().getFullYear()}. 洞察评估未来。由 
+            <a 
+              href="https://github.com/xuconghu" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="mx-1 underline underline-offset-4 hover:text-primary"
+            >
+              xuconghu
+            </a>
+            开发。
             <span className="block md:inline md:ml-2">
               <a 
                 href="https://creativecommons.org/licenses/by-nc-sa/4.0/" 
