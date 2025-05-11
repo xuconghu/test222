@@ -26,8 +26,8 @@ const nextConfig: NextConfig = {
   },
   // 静态导出设置
   output: 'export',
-  // 在生产环境中使用basePath
-  basePath: process.env.NODE_ENV === 'production' ? basePath : '',
+  // basePath配置简化为固定值
+  basePath: '/test222',
   // 禁用基于服务器的特性
   trailingSlash: true,
 };

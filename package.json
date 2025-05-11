@@ -10,7 +10,6 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "export": "next build && next export",
     "deploy": "next build && touch out/.nojekyll"
   },
   "dependencies": {
