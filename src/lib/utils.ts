@@ -73,16 +73,17 @@ export function downloadCsv(csvContent: string, filename: string): void {
 
 // 辅助函数：根据环境生成正确的URL路径
 export function getBasePath() {
-  // 在客户端运行时检测当前URL路径
+  // 始终返回正确的basePath
+  // 在生产环境中使用test222作为basePath
   if (typeof window !== 'undefined') {
-    // 对用户展示的路径是zhishiweilai.com，无需添加basePath
-    if (window.location.hostname === 'zhishiweilai.com' || 
-        window.location.hostname === 'www.zhishiweilai.com') {
-      return '';
+    // 判断是否在GitHub Pages上运行
+    if (window.location.hostname.includes('github.io') || 
+        window.location.hostname.includes('xuconghu.github.io')) {
+      return '/test222';
     }
     
-    // 在GitHub Pages上时使用仓库名称作为basePath
-    return '/test222';
+    // 本地开发环境或自定义域名环境
+    return '';
   }
   return '';
 }
