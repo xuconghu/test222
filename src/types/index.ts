@@ -23,6 +23,7 @@ export interface StoredRobotAssessment {
   userAge: number;
   userGender: string;
   userMajor: string;
+  assessmentDuration: number; // 评估耗时（秒）
 }
 
 export interface AssessmentSession {

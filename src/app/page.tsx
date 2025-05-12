@@ -58,6 +58,37 @@ export default function RobotVisionaryPage() {
 
   // 添加一个状态来跟踪当前评估的机器人id，用于触发评估面板滚动
   const [currentAssessmentId, setCurrentAssessmentId] = useState<string>('');
+  
+  // 添加评估开始时间状态，用于记录每个机器人的评估耗时
+  // 这里使用state而不是ref是因为状态更新需要触发重渲染，
+  // 且state提供的是不可变值，更适合记录特定时间点
+  const [startTime, setStartTime] = useState<number | null>(null);
+  
+  // 添加当前评估时间计数器（用于UI显示）
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
+
+  // 使用useEffect设置计时器，每秒更新一次评估时间
+  useEffect(() => {
+    let timerId: NodeJS.Timeout | null = null;
+    
+    // 如果有开始时间，开始计时
+    if (startTime !== null) {
+      // 立即更新一次
+      setElapsedTime(Math.round((Date.now() - startTime) / 1000));
+      
+      // 设置定时器每秒更新
+      timerId = setInterval(() => {
+        setElapsedTime(Math.round((Date.now() - startTime) / 1000));
+      }, 1000);
+    }
+    
+    // 清理函数
+    return () => {
+      if (timerId) {
+        clearInterval(timerId);
+      }
+    };
+  }, [startTime]);
 
   // 处理用户信息输入变化
   const handleUserInfoChange = (field: string, value: string) => {
@@ -67,7 +98,7 @@ export default function RobotVisionaryPage() {
     }));
   };
 
-  // 提交用户信息
+  // 提交用户信息，开始评估并记录开始时间
   const handleUserInfoSubmit = () => {
     // 简单验证
     if (!userInfo.name || !userInfo.age || !userInfo.gender || !userInfo.major) {
@@ -93,6 +124,9 @@ export default function RobotVisionaryPage() {
 
     // 通过验证，隐藏表单并开始评估
     setShowUserForm(false);
+    
+    // 记录评估开始时间
+    setStartTime(Date.now());
     
     toast({
       title: "信息已保存",
@@ -155,6 +189,13 @@ export default function RobotVisionaryPage() {
     return true;
   };
 
+  // 格式化时间显示 (将秒转为分:秒格式)
+  const formatDuration = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}分${remainingSeconds}秒`;
+  };
+
   // 保存当前机器人评估并进入下一个
   const handleSaveAndNext = () => {
     if (!currentRobot || shuffledQuestions.length === 0 || sliderValues.length !== shuffledQuestions.length) {
@@ -172,6 +213,9 @@ export default function RobotVisionaryPage() {
       return;
     }
 
+    // 计算评估耗时（秒）
+    const assessmentDuration = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
+
     const overallScore = calculateOverallScore(sliderValues);
     const currentAssessment: StoredRobotAssessment = {
       robotId: currentRobot.id,
@@ -185,7 +229,9 @@ export default function RobotVisionaryPage() {
       userName: userInfo.name,
       userAge: Number(userInfo.age),
       userGender: userInfo.gender,
-      userMajor: userInfo.major
+      userMajor: userInfo.major,
+      // 添加评估耗时
+      assessmentDuration
     };
 
     // 保存当前评估
@@ -209,10 +255,13 @@ export default function RobotVisionaryPage() {
     
     // 更新currentAssessmentId以触发评估面板滚动到顶部
     setCurrentAssessmentId(Date.now().toString());
+    
+    // 为下一个机器人重置评估开始时间
+    setStartTime(Date.now());
 
     toast({
       title: "已保存",
-      description: `已保存对${currentRobot.name}的评估，总分: ${overallScore}%`,
+      description: `已保存对${currentRobot.name}的评估，总分: ${overallScore}%，耗时: ${formatDuration(assessmentDuration)}`,
       duration: 3000,
     });
   };
@@ -545,6 +594,18 @@ export default function RobotVisionaryPage() {
                     </div>
                     <Progress value={completionPercentage} className="h-2" />
                   </div>
+                  
+                  {/* 添加评估耗时显示 */}
+                  {startTime && (
+                    <div className="rounded-lg bg-primary/5 p-3 border border-primary/20">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-primary">当前评估耗时:</span>
+                        <span className="font-semibold" id="assessment-timer">
+                          {formatDuration(elapsedTime)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
                   
                   <Button 
                     onClick={handleSaveAndNext} 

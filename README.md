@@ -1,5 +1,7 @@
 # 机器人远见家 (Robot Visionary)
 
+[![Deploy to GitHub Pages](https://github.com/xuconghu/test222/actions/workflows/deploy.yml/badge.svg)](https://github.com/xuconghu/test222/actions/workflows/deploy.yml)
+
 这是一个机器人能力评估平台，用于评估机器人的感知、行为和因果性等方面的能力。
 
 ## 功能特点

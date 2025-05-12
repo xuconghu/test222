@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Bot } from 'lucide-react'; 
+import { Bot, Loader2 } from 'lucide-react'; 
 import type { RobotImage } from '@/types';
 import { getImagePath } from '@/lib/image-utils';
 
@@ -14,6 +14,16 @@ interface RobotDisplayProps {
 }
 
 export function RobotDisplay({ robot, currentIndex, totalRobots }: RobotDisplayProps) {
+  // 添加图片加载状态
+  const [imageLoading, setImageLoading] = useState(true);
+
+  // 当机器人变化时重置加载状态
+  useEffect(() => {
+    if (robot) {
+      setImageLoading(true);
+    }
+  }, [robot]);
+
   return (
     <Card className="shadow-lg rounded-lg overflow-hidden">
       <CardHeader className="bg-card-foreground/5">
@@ -34,7 +44,17 @@ export function RobotDisplay({ robot, currentIndex, totalRobots }: RobotDisplayP
                 style={{ objectFit: 'contain' }}
                 priority
                 data-ai-hint="robot image"
+                onLoadingComplete={() => setImageLoading(false)}
+                onLoad={() => setImageLoading(false)}
               />
+              
+              {/* 图片加载状态提示 */}
+              {imageLoading && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/60 backdrop-blur-sm transition-opacity z-10">
+                  <Loader2 className="h-10 w-10 text-primary animate-spin mb-3" />
+                  <p className="text-sm font-medium text-primary">图片加载中...</p>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center p-8 text-muted-foreground space-y-2">
