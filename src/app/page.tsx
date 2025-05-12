@@ -64,7 +64,7 @@ export default function RobotVisionaryPage() {
   // 且state提供的是不可变值，更适合记录特定时间点
   const [startTime, setStartTime] = useState<number | null>(null);
   
-  // 添加当前评估时间计数器（用于UI显示）
+  // 添加当前评估时间计数器（仅用于后台记录，不在UI显示）
   const [elapsedTime, setElapsedTime] = useState<number>(0);
 
   // 使用useEffect设置计时器，每秒更新一次评估时间
@@ -261,7 +261,7 @@ export default function RobotVisionaryPage() {
 
     toast({
       title: "已保存",
-      description: `已保存对${currentRobot.name}的评估，总分: ${overallScore}%，耗时: ${formatDuration(assessmentDuration)}`,
+      description: `已保存对${currentRobot.name}的评估，总分: ${overallScore}%`,
       duration: 3000,
     });
   };
@@ -594,18 +594,6 @@ export default function RobotVisionaryPage() {
                     </div>
                     <Progress value={completionPercentage} className="h-2" />
                   </div>
-                  
-                  {/* 添加评估耗时显示 */}
-                  {startTime && (
-                    <div className="rounded-lg bg-primary/5 p-3 border border-primary/20">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-primary">当前评估耗时:</span>
-                        <span className="font-semibold" id="assessment-timer">
-                          {formatDuration(elapsedTime)}
-                        </span>
-                      </div>
-                    </div>
-                  )}
                   
                   <Button 
                     onClick={handleSaveAndNext} 
