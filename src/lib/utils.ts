@@ -75,17 +75,22 @@ export function downloadCsv(csvContent: string, filename: string): void {
 
 // 辅助函数：根据环境生成正确的URL路径
 export function getBasePath() {
-  // 始终返回正确的basePath
-  // 在生产环境中使用test222作为basePath
+  // 在浏览器环境中判断
   if (typeof window !== 'undefined') {
     // 判断是否在GitHub Pages上运行
-    if (window.location.hostname.includes('github.io') || 
-        window.location.hostname.includes('xuconghu.github.io')) {
+    if (window.location.hostname.includes('github.io')) {
       return '/test222';
     }
     
-    // 本地开发环境或自定义域名环境
+    // 处理自定义域名情况 (zhishiweilai.com)
+    if (window.location.hostname.includes('zhishiweilai.com')) {
+      return '';
+    }
+    
+    // 本地开发环境
     return '';
   }
+  
+  // 服务器端渲染时默认返回空字符串
   return '';
 }

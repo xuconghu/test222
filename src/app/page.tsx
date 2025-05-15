@@ -139,6 +139,7 @@ export default function RobotVisionaryPage() {
   useEffect(() => {
     // 随机选择机器人
     const randomRobots = getRandomRobots(ROBOTS_PER_ASSESSMENT);
+    
     // 随机排序问题
     const shuffled = shuffleArray(ALL_QUESTIONS);
     

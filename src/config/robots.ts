@@ -4,9 +4,34 @@ export interface RobotImage {
   name: string;
 }
 
-// 这里列出所有可用的机器人图片
-// 从public/robot-images文件夹中读取的所有实际图片
-export const ROBOT_IMAGES: RobotImage[] = [
+// 要保留的机器人ID列表（用户可以修改这个列表来选择需要的机器人）
+// 请将这个数组替换为您想要保留的机器人ID列表
+export const SELECTED_ROBOT_IDS = [
+  'robot002', 'robot003', 'robot006', 'robot008', 'robot009', 'robot011', 'robot012', 'robot013', 'robot014',
+  'robot015', 'robot016', 'robot017', 'robot018', 'robot019', 'robot020', 'robot021', 'robot022', 'robot023', 'robot024',
+  'robot025', 'robot026', 'robot028', 'robot029', 'robot031', 'robot032', 'robot033', 'robot034', 'robot035', 'robot036',
+  'robot037', 'robot038', 'robot039', 'robot041', 'robot042', 'robot043', 'robot044', 'robot045', 'robot046', 'robot047',
+  'robot049', 'robot050', 'robot051', 'robot052', 'robot054', 'robot055', 'robot056', 'robot057', 'robot058', 'robot059',
+  'robot061', 'robot062', 'robot063', 'robot065', 'robot066', 'robot067', 'robot068', 'robot069', 'robot070', 'robot071',
+  'robot072', 'robot074', 'robot075', 'robot076', 'robot077', 'robot078', 'robot079', 'robot081', 'robot082', 'robot083',
+  'robot084', 'robot086', 'robot088', 'robot090', 'robot091', 'robot092', 'robot094', 'robot095', 'robot096', 'robot097',
+  'robot098', 'robot099', 'robot100', 'robot101', 'robot102', 'robot103', 'robot105', 'robot106', 'robot108', 'robot109',
+  'robot110', 'robot111', 'robot112', 'robot113', 'robot114', 'robot115', 'robot116', 'robot117', 'robot118', 'robot119',
+  'robot120', 'robot121', 'robot123', 'robot124', 'robot125', 'robot126', 'robot127', 'robot128', 'robot129', 'robot130',
+  'robot131', 'robot133', 'robot134', 'robot135', 'robot136', 'robot137', 'robot138', 'robot140', 'robot141', 'robot143',
+  'robot144', 'robot145', 'robot147', 'robot149', 'robot150', 'robot153', 'robot154', 'robot155', 'robot156', 'robot157',
+  'robot160', 'robot163', 'robot164', 'robot165', 'robot167', 'robot169', 'robot170', 'robot171', 'robot172', 'robot175',
+  'robot176', 'robot177', 'robot179', 'robot180', 'robot181', 'robot182', 'robot183', 'robot184', 'robot185', 'robot186',
+  'robot187', 'robot189', 'robot191', 'robot192', 'robot193', 'robot194', 'robot195', 'robot196', 'robot197', 'robot198',
+  'robot199', 'robot200', 'robot201', 'robot202', 'robot203', 'robot204', 'robot205', 'robot207', 'robot208', 'robot209',
+  'robot210', 'robot212', 'robot214', 'robot215', 'robot216', 'robot218', 'robot219', 'robot220', 'robot221', 'robot222',
+  'robot223', 'robot224', 'robot226', 'robot227', 'robot228', 'robot229', 'robot230', 'robot231', 'robot232', 'robot233',
+  'robot234', 'robot235', 'robot236', 'robot237', 'robot238', 'robot240', 'robot241', 'robot242', 'robot243', 'robot245',
+  'robot246', 'robot247', 'robot248', 'robot249', 'robot250', 'robot251'
+];
+
+// 所有可用的机器人图片
+const ALL_ROBOT_IMAGES: RobotImage[] = [
   { id: 'robot001', filename: '/robot-images/1_jia_jia_robot.jpg', name: 'jia-jia-robot' },
   { id: 'robot002', filename: '/robot-images/2_snap_bot.jpg', name: 'snap-bot' },
   { id: 'robot003', filename: '/robot-images/3_lego-robot-1.jpg', name: 'lego-robot-1' },
@@ -260,11 +285,19 @@ export const ROBOT_IMAGES: RobotImage[] = [
   { id: 'robot251', filename: '/robot-images/251_olivia.jpg', name: 'olivia' }
 ];
 
+// 从所有机器人中过滤出指定ID的机器人
+export const ROBOT_IMAGES: RobotImage[] = ALL_ROBOT_IMAGES.filter(robot => 
+  SELECTED_ROBOT_IDS.includes(robot.id)
+);
+
 // 每次评估需要的机器人数量
 export const ROBOTS_PER_ASSESSMENT = 3;
 
 // 随机选择指定数量的机器人
 export function getRandomRobots(count: number = ROBOTS_PER_ASSESSMENT): RobotImage[] {
+  // 确保不要尝试选择比可用机器人更多的数量
+  const selectCount = Math.min(count, ROBOT_IMAGES.length);
+  
   // 复制数组防止修改原数组
   const shuffled = [...ROBOT_IMAGES];
   
@@ -274,6 +307,6 @@ export function getRandomRobots(count: number = ROBOTS_PER_ASSESSMENT): RobotIma
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   
-  // 返回前count个元素
-  return shuffled.slice(0, count);
+  // 返回前selectCount个元素
+  return shuffled.slice(0, selectCount);
 }
