@@ -7,25 +7,22 @@ export interface RobotImage {
 // 要保留的机器人ID列表（用户可以修改这个列表来选择需要的机器人）
 // 请将这个数组替换为您想要保留的机器人ID列表
 export const SELECTED_ROBOT_IDS = [
-  'robot002', 'robot003', 'robot006', 'robot008', 'robot009', 'robot011', 'robot012', 'robot013', 'robot014', 'robot015',
-  'robot016', 'robot017', 'robot018', 'robot019', 'robot020', 'robot024', 'robot025', 'robot026', 'robot028', 'robot029',
-  'robot031', 'robot032', 'robot033', 'robot034', 'robot035', 'robot036', 'robot037', 'robot038', 'robot039', 'robot041',
-  'robot042', 'robot043', 'robot045', 'robot046', 'robot047', 'robot049', 'robot050', 'robot051', 'robot052', 'robot054',
-  'robot055', 'robot056', 'robot057', 'robot059', 'robot062', 'robot063', 'robot065', 'robot066', 'robot068', 'robot069',
-  'robot070', 'robot071', 'robot072', 'robot074', 'robot075', 'robot076', 'robot077', 'robot078', 'robot079', 'robot081',
-  'robot082', 'robot083', 'robot084', 'robot086', 'robot088', 'robot090', 'robot091', 'robot092', 'robot095', 'robot096',
-  'robot097', 'robot098', 'robot100', 'robot101', 'robot105', 'robot108', 'robot110', 'robot112', 'robot113', 'robot115',
-  'robot116', 'robot118', 'robot119', 'robot120', 'robot121', 'robot123', 'robot124', 'robot125', 'robot126', 'robot127',
-  'robot128', 'robot129', 'robot130', 'robot131', 'robot133', 'robot134', 'robot135', 'robot136', 'robot137', 'robot138',
-  'robot140', 'robot141', 'robot143', 'robot144', 'robot145', 'robot147', 'robot149', 'robot150', 'robot154', 'robot155',
-  'robot156', 'robot157', 'robot160', 'robot163', 'robot164', 'robot165', 'robot167', 'robot171', 'robot172', 'robot175',
-  'robot176', 'robot177', 'robot179', 'robot180', 'robot182', 'robot183', 'robot184', 'robot185', 'robot186', 'robot187',
-  'robot189', 'robot191', 'robot192', 'robot193', 'robot194', 'robot196', 'robot197', 'robot199', 'robot200', 'robot201',
-  'robot202', 'robot205', 'robot207', 'robot208', 'robot209', 'robot210', 'robot212', 'robot214', 'robot215', 'robot216',
-  'robot218', 'robot219', 'robot220', 'robot221', 'robot223', 'robot224', 'robot226', 'robot227', 'robot228', 'robot229',
-  'robot231', 'robot232', 'robot233', 'robot234', 'robot235', 'robot237', 'robot238', 'robot241', 'robot242', 'robot243',
-  'robot245', 'robot246', 'robot247', 'robot248', 'robot249', 'robot250'
+  'robot002', 'robot006', 'robot008', 'robot009', 'robot011', 'robot014', 'robot015', 'robot016', 'robot017', 'robot018',
+  'robot019', 'robot020', 'robot024', 'robot026', 'robot029', 'robot031', 'robot033', 'robot034', 'robot035', 'robot036',
+  'robot038', 'robot039', 'robot041', 'robot042', 'robot043', 'robot045', 'robot046', 'robot047', 'robot051', 'robot052',
+  'robot054', 'robot055', 'robot057', 'robot059', 'robot062', 'robot066', 'robot068', 'robot069', 'robot070', 'robot071',
+  'robot072', 'robot074', 'robot075', 'robot076', 'robot077', 'robot079', 'robot081', 'robot082', 'robot083', 'robot084',
+  'robot086', 'robot088', 'robot090', 'robot092', 'robot095', 'robot098', 'robot101', 'robot105', 'robot110', 'robot112',
+  'robot113', 'robot115', 'robot116', 'robot118', 'robot120', 'robot124', 'robot125', 'robot126', 'robot129', 'robot131',
+  'robot133', 'robot135', 'robot137', 'robot138', 'robot140', 'robot141', 'robot143', 'robot144', 'robot145', 'robot147',
+  'robot149', 'robot150', 'robot154', 'robot155', 'robot156', 'robot160', 'robot163', 'robot164', 'robot167', 'robot172',
+  'robot176', 'robot177', 'robot179', 'robot182', 'robot184', 'robot185', 'robot186', 'robot187', 'robot191', 'robot192',
+  'robot193', 'robot196', 'robot197', 'robot200', 'robot202', 'robot205', 'robot208', 'robot212', 'robot214', 'robot215',
+  'robot216', 'robot218', 'robot219', 'robot220', 'robot221', 'robot223', 'robot224', 'robot226', 'robot227', 'robot233',
+  'robot234', 'robot237', 'robot238', 'robot241', 'robot242', 'robot243', 'robot245', 'robot246', 'robot247', 'robot248',
+  'robot249', 'robot250'
 ];
+
 
 // 所有可用的机器人图片
 const ALL_ROBOT_IMAGES: RobotImage[] = [
