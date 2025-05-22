@@ -7,12 +7,9 @@ export interface RobotImage {
 // 要保留的机器人ID列表（用户可以修改这个列表来选择需要的机器人）
 // 请将这个数组替换为您想要保留的机器人ID列表
 export const SELECTED_ROBOT_IDS = [
-  'robot009', 'robot015', 'robot018', 'robot019', 'robot024', 'robot033',
-  'robot038', 'robot051', 'robot062', 'robot072', 'robot077', 'robot105',
-  'robot116', 'robot138', 'robot140', 'robot150', 'robot154', 'robot156',
-  'robot164', 'robot186', 'robot196', 'robot212', 'robot216', 'robot223',
-  'robot226', 'robot234', 'robot243', 'robot245', 'robot248', 'robot249',
-  'robot250'
+  'robot009', 'robot018', 'robot019', 'robot024', 'robot038',
+  'robot072', 'robot116', 'robot150', 'robot154', 'robot156',
+  'robot164', 'robot186', 'robot196', 'robot216', 'robot243'
 ];
 
 // 所有可用的机器人图片
